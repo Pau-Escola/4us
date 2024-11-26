@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://k3tqmrgbo405"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_527rs"]
+[ext_resource type="PackedScene" uid="uid://8uma8h5phyxj" path="res://player.tscn" id="1_k64f7"]
+[ext_resource type="PackedScene" uid="uid://cp3ob07errg3c" path="res://enemy.tscn" id="2_v7xkg"]
+[ext_resource type="Script" path="res://playerCameraBasic.gd" id="4_wu0w5"]
+[ext_resource type="PackedScene" uid="uid://nytr6qj88wga" path="res://obstacle.tscn" id="5_w8e5q"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ug2t5"]
+vertices = PackedVector2Array(456, 219, 626.047, 349.102, 10.9688, 355.883, 408, 219, 627.938, 11.9766, 456, 192, 10.0234, 11.0078, 408, 149, 456, 149, 435, 192, 435, 176, 456, 176)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(3, 2, 6, 7), PackedInt32Array(7, 6, 4, 8), PackedInt32Array(5, 9, 10, 11), PackedInt32Array(4, 5, 11), PackedInt32Array(8, 4, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 1, 638, 2, 636, 359, 1, 366), PackedVector2Array(446, 159, 418, 159, 418, 209, 446, 209, 446, 202, 425, 202, 425, 166, 446, 166)])
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_527rs")
+
+[node name="Player" parent="." instance=ExtResource("1_k64f7")]
+attack_damage = 20
+
+[node name="Enemy" parent="." instance=ExtResource("2_v7xkg")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_wu0w5")
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(418, 174)
+
+[node name="StaticBody2D2" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(0, 28)
+
+[node name="StaticBody2D3" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(0, 21)
+
+[node name="StaticBody2D4" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(14, 28)
+
+[node name="StaticBody2D6" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(7, 28)
+
+[node name="StaticBody2D5" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(21, 28)
+
+[node name="StaticBody2D5" parent="StaticBody2D2/StaticBody2D5" instance=ExtResource("5_w8e5q")]
+position = Vector2(0, -43)
+
+[node name="StaticBody2D" parent="StaticBody2D2" instance=ExtResource("5_w8e5q")]
+position = Vector2(0, 14)
+
+[node name="StaticBody2D3" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(418, 167)
+
+[node name="StaticBody2D4" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(425, 159)
+
+[node name="StaticBody2D6" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(418, 181)
+
+[node name="StaticBody2D5" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(432, 159)
+
+[node name="StaticBody2D" parent="." instance=ExtResource("5_w8e5q")]
+position = Vector2(418, 160)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_ug2t5")

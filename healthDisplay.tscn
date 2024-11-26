@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://rrxs4uqrapgv"]
+
+[ext_resource type="Script" path="res://health_display.gd" id="1_ljju4"]
+
+[sub_resource type="SystemFont" id="SystemFont_wufel"]
+subpixel_positioning = 0
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ljju4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -12.0
+offset_right = 28.0
+offset_bottom = 10.0
+color = Color(0, 0.451006, 0.366751, 1)
+
+[node name="HealthBar" type="Label" parent="."]
+offset_top = -1.0
+offset_right = 40.0
+offset_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_wufel")
+theme_override_font_sizes/font_size = 7
+text = "jkhjk"
+
+[node name="DamageBar" type="Label" parent="."]
+offset_left = -7.0
+offset_top = -11.0
+offset_right = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_wufel")
+theme_override_font_sizes/font_size = 7

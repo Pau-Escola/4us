@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://8uma8h5phyxj"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_8q113"]
+[ext_resource type="Texture2D" uid="uid://bf3g2y7pp5d0i" path="res://Pink_Monster.png" id="2_6flce"]
+[ext_resource type="PackedScene" uid="uid://rrxs4uqrapgv" path="res://healthDisplay.tscn" id="2_y7sqj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fs1bh"]
+radius = 11.0
+height = 36.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbreu"]
+size = Vector2(29, 30)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_8q113")
+
+[node name="HealthDisplay" parent="." instance=ExtResource("2_y7sqj")]
+position = Vector2(-22, -28)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6flce")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+shape = SubResource("CapsuleShape2D_fs1bh")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+position = Vector2(21, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("RectangleShape2D_vbreu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
+[connection signal="body_exited" from="AttackHitbox" to="." method="_on_attack_hitbox_body_exited"]
