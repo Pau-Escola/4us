@@ -1,0 +1,226 @@
+[gd_scene load_steps=8 format=3 uid="uid://k3tqmrgbo405"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_527rs"]
+[ext_resource type="PackedScene" uid="uid://8uma8h5phyxj" path="res://scenes/player.tscn" id="1_k64f7"]
+[ext_resource type="PackedScene" uid="uid://cp3ob07errg3c" path="res://scenes/enemy.tscn" id="2_v7xkg"]
+[ext_resource type="Script" path="res://scripts/playerCameraBasic.gd" id="4_wu0w5"]
+[ext_resource type="PackedScene" uid="uid://nytr6qj88wga" path="res://scenes/obstacle.tscn" id="5_w8e5q"]
+[ext_resource type="PackedScene" uid="uid://d25e6woy8o60q" path="res://scenes/wall.tscn" id="6_hjij0"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_f7ivd"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_527rs")
+
+[node name="Player" parent="." instance=ExtResource("1_k64f7")]
+position = Vector2(135, 136)
+attack_damage = 20
+
+[node name="Enemy" parent="." instance=ExtResource("2_v7xkg")]
+position = Vector2(456, 193)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+script = ExtResource("4_wu0w5")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_f7ivd")
+
+[node name="StaticBody2D2" parent="NavigationRegion2D" instance=ExtResource("5_w8e5q")]
+position = Vector2(328, 137)
+
+[node name="borders" type="Node2D" parent="NavigationRegion2D"]
+
+[node name="superiorWall" parent="NavigationRegion2D/borders" instance=ExtResource("6_hjij0")]
+position = Vector2(3, -11)
+
+[node name="StaticBody2D" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(134, 0)
+
+[node name="StaticBody2D2" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(268, 0)
+
+[node name="StaticBody2D3" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(402, 0)
+
+[node name="wall" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(536, 0)
+
+[node name="StaticBody2D4" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(670, 0)
+
+[node name="StaticBody2D5" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(804, 0)
+
+[node name="StaticBody2D6" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(938, 0)
+
+[node name="walls" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1072, 0)
+
+[node name="StaticBody2D7" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1206, 0)
+
+[node name="StaticBody2D8" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1340, 0)
+
+[node name="StaticBody2D9" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1474, 0)
+
+[node name="wall2" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1608, 0)
+
+[node name="StaticBody2D10" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1742, 0)
+
+[node name="StaticBody2D11" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1876, 0)
+
+[node name="StaticBody2D12" parent="NavigationRegion2D/borders/superiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(2010, 0)
+
+[node name="inferiorWall" parent="NavigationRegion2D/borders" instance=ExtResource("6_hjij0")]
+position = Vector2(16, 898)
+
+[node name="StaticBody2D" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(134, 0)
+
+[node name="StaticBody2D2" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(268, 0)
+
+[node name="StaticBody2D3" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(402, 0)
+
+[node name="wall" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(536, 0)
+
+[node name="StaticBody2D4" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(670, 0)
+
+[node name="StaticBody2D5" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(804, 0)
+
+[node name="StaticBody2D6" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(938, 0)
+
+[node name="walls" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1072, 0)
+
+[node name="StaticBody2D7" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1206, 0)
+
+[node name="StaticBody2D8" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1340, 0)
+
+[node name="StaticBody2D9" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1474, 0)
+
+[node name="wall2" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1608, 0)
+
+[node name="StaticBody2D10" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1742, 0)
+
+[node name="StaticBody2D11" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1876, 0)
+
+[node name="StaticBody2D12" parent="NavigationRegion2D/borders/inferiorWall" instance=ExtResource("6_hjij0")]
+position = Vector2(2010, 0)
+
+[node name="leftWall" parent="NavigationRegion2D/borders" instance=ExtResource("6_hjij0")]
+position = Vector2(3, -11)
+rotation = 1.5708
+
+[node name="StaticBody2D" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(134, 0)
+
+[node name="StaticBody2D2" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(268, 0)
+
+[node name="StaticBody2D3" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(402, 0)
+
+[node name="wall" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(536, 0)
+
+[node name="StaticBody2D4" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(670, 0)
+
+[node name="StaticBody2D5" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(804, 0)
+
+[node name="StaticBody2D6" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(938, 0)
+
+[node name="walls" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1072, 0)
+
+[node name="StaticBody2D7" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1206, 0)
+
+[node name="StaticBody2D8" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1340, 0)
+
+[node name="StaticBody2D9" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1474, 0)
+
+[node name="wall2" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1608, 0)
+
+[node name="StaticBody2D10" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1742, 0)
+
+[node name="StaticBody2D11" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1876, 0)
+
+[node name="StaticBody2D12" parent="NavigationRegion2D/borders/leftWall" instance=ExtResource("6_hjij0")]
+position = Vector2(2010, 0)
+
+[node name="rightWall" parent="NavigationRegion2D/borders" instance=ExtResource("6_hjij0")]
+position = Vector2(1397, -11)
+rotation = 1.5708
+
+[node name="StaticBody2D" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(134, 0)
+
+[node name="StaticBody2D2" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(268, 0)
+
+[node name="StaticBody2D3" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(402, 0)
+
+[node name="wall" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(536, 0)
+
+[node name="StaticBody2D4" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(670, 0)
+
+[node name="StaticBody2D5" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(804, 0)
+
+[node name="StaticBody2D6" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(938, 0)
+
+[node name="walls" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1072, 0)
+
+[node name="StaticBody2D7" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1206, 0)
+
+[node name="StaticBody2D8" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1340, 0)
+
+[node name="StaticBody2D9" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1474, 0)
+
+[node name="wall2" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1608, 0)
+
+[node name="StaticBody2D10" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1742, 0)
+
+[node name="StaticBody2D11" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(1876, 0)
+
+[node name="StaticBody2D12" parent="NavigationRegion2D/borders/rightWall" instance=ExtResource("6_hjij0")]
+position = Vector2(2010, 0)

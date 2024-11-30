@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf3g2y7pp5d0i"
-path="res://.godot/imported/Pink_Monster.png-658526a9a40f6d7f25896f0f42aca859.ctex"
+uid="uid://dj37uahxmgvgr"
+path="res://.godot/imported/Owlet_Monster.png-0b0290b22d2ce2d9275d9a2be047e957.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Pink_Monster.png"
-dest_files=["res://.godot/imported/Pink_Monster.png-658526a9a40f6d7f25896f0f42aca859.ctex"]
+source_file="res://resources/Owlet_Monster.png"
+dest_files=["res://.godot/imported/Owlet_Monster.png-0b0290b22d2ce2d9275d9a2be047e957.ctex"]
 
 [params]
 
