@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl4j0ph3brhfq"]
+
+[ext_resource type="Script" path="res://GameOverScreen.gd" id="1_kjxuw"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_kjxuw")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 92.0
+color = Color(0.0233718, 0.0233718, 0.0233718, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "GAME OVER"
+
+[node name="RESTART" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "RESTART"
+
+[node name="QUIT" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[connection signal="pressed" from="Control/VBoxContainer/RESTART" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/QUIT" to="." method="_on_quit_button_pressed"]

@@ -28,6 +28,7 @@ var dash_direction: Vector2 = Vector2.ZERO  # Track dash direction
 var facing_right: bool = true  # Track facing direction
 var heal_charges: int = 3  # Current number of healing charges
 var can_heal: bool = true  # Healing cooldown flag
+signal died
 
 @onready var animation_player = $AnimationPlayer if has_node("AnimationPlayer") else null
 @onready var sprite = $Sprite2D if has_node("Sprite2D") else null
@@ -185,4 +186,6 @@ func heal():
 
 func die():
 	print("Player died!")
+	died.emit()
+	await get_tree().create_timer(0.1).timeout
 	queue_free()
