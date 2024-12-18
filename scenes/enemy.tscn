@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cp3ob07errg3c"]
 
-[ext_resource type="Script" path="res://enemy.gd" id="1_h7bdy"]
-[ext_resource type="Texture2D" uid="uid://dj37uahxmgvgr" path="res://Owlet_Monster.png" id="1_q2ivn"]
-[ext_resource type="PackedScene" uid="uid://rrxs4uqrapgv" path="res://healthDisplay.tscn" id="2_wf53j"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_h7bdy"]
+[ext_resource type="Texture2D" uid="uid://dj37uahxmgvgr" path="res://resources/images/Owlet_Monster.png" id="1_q2ivn"]
+[ext_resource type="PackedScene" uid="uid://rrxs4uqrapgv" path="res://scenes/healthDisplay.tscn" id="2_wf53j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jqfdr"]
 radius = 12.0

@@ -28,6 +28,8 @@ var dash_direction: Vector2 = Vector2.ZERO  # Track dash direction
 var facing_right: bool = true  # Track facing direction
 var heal_charges: int = 3  # Current number of healing charges
 var can_heal: bool = true  # Healing cooldown flag
+var spawn_position: Vector2
+var last_checkpoint_position: Vector2 = Vector2.ZERO
 signal died
 
 @onready var animation_player = $AnimationPlayer if has_node("AnimationPlayer") else null
@@ -38,6 +40,7 @@ signal died
 func _ready():
 	current_health = max_health
 	heal_charges = max_heal_charges
+	spawn_position = global_position
 	if attack_area:
 		attack_area.position.x = abs(attack_area.position.x)
 	if health_display:
@@ -142,6 +145,9 @@ func _on_attack_hitbox_body_exited(body):
 	if body.is_in_group("enemy"):
 		can_attack = false
 		target = null
+func _on_checkpoint_activated(pos: Vector2):
+	last_checkpoint_position = pos
+	print("Checkpoint activated at: ", pos)
 
 func take_damage(amount: int):
 	current_health -= amount
@@ -186,6 +192,15 @@ func heal():
 
 func die():
 	print("Player died!")
-	died.emit()
-	await get_tree().create_timer(0.1).timeout
-	queue_free()
+	if last_checkpoint_position != Vector2.ZERO:
+		# Respawn at last checkpoint
+		global_position = last_checkpoint_position
+		current_health = max_health
+		heal_charges = max_heal_charges  # Optional: reset heal charges at checkpoint
+		print("Respawning at checkpoint: ", last_checkpoint_position)
+		last_checkpoint_position = Vector2.ZERO
+	else:
+		# No checkpoint was activated, handle regular death
+		died.emit()
+		await get_tree().create_timer(0.1).timeout
+		queue_free()

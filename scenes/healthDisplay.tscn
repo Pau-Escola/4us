@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rrxs4uqrapgv"]
 
-[ext_resource type="Script" path="res://health_display.gd" id="1_ljju4"]
+[ext_resource type="Script" path="res://scripts/health_display.gd" id="1_ljju4"]
 
 [sub_resource type="SystemFont" id="SystemFont_wufel"]
 subpixel_positioning = 0

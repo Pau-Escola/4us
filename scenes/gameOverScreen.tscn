@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cl4j0ph3brhfq"]
 
-[ext_resource type="Script" path="res://GameOverScreen.gd" id="1_kjxuw"]
+[ext_resource type="Script" path="res://scripts/GameOverScreen.gd" id="1_kjxuw"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_kjxuw")
@@ -26,13 +26,13 @@ offset_bottom = 40.0
 layout_mode = 2
 text = "GAME OVER"
 
-[node name="RESTART" type="Button" parent="Control/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 text = "RESTART"
 
-[node name="QUIT" type="Button" parent="Control/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 text = "QUIT"
 
-[connection signal="pressed" from="Control/VBoxContainer/RESTART" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/QUIT" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
