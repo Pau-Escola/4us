@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var player = $Player
-@onready var enemy = $Enemy
 @onready var game_over_screen = $gameOverScreen  # Add this
 
 func _ready():

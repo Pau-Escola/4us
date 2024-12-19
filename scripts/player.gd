@@ -17,23 +17,28 @@ extends CharacterBody2D
 @export var heal_cooldown: float = 5.0
 @export var max_heal_charges: int = 3
 
+
+enum Direction {N, S, E, W}
+enum AnimationState { IDLE, WALKING, ATTACKING, HURT, DEAD, DASHING }
 var current_health: int
 var current_damage: int
 var attacking: bool = false
-var can_attack: bool = false
 var target: Node2D = null
 var can_dash: bool = true  # Changed from can_jump
 var is_dashing: bool = false  # New dash state
 var dash_direction: Vector2 = Vector2.ZERO  # Track dash direction
-var facing_right: bool = true  # Track facing direction
+var facing_direction: Direction = Direction.E  # Track facing direction
 var heal_charges: int = 3  # Current number of healing charges
 var can_heal: bool = true  # Healing cooldown flag
 var spawn_position: Vector2
 var last_checkpoint_position: Vector2 = Vector2.ZERO
+var current_animation_state = AnimationState.IDLE
+var original_hitbox_position: Vector2
+var is_dying: bool = false
+var is_respawning: bool = false
 signal died
 
-@onready var animation_player = $AnimationPlayer if has_node("AnimationPlayer") else null
-@onready var sprite = $Sprite2D if has_node("Sprite2D") else null
+@onready var sprite = $AnimatedSprite2D
 @onready var attack_area = $AttackArea if has_node("AttackArea") else null
 @onready var health_display = $HealthDisplay
 
@@ -41,6 +46,7 @@ func _ready():
 	current_health = max_health
 	heal_charges = max_heal_charges
 	spawn_position = global_position
+	original_hitbox_position = attack_area.position
 	if attack_area:
 		attack_area.position.x = abs(attack_area.position.x)
 	if health_display:
@@ -48,6 +54,8 @@ func _ready():
 		
 func _physics_process(delta):
 	# Get input direction
+	if current_animation_state == AnimationState.DEAD or is_dying or is_respawning:
+		return
 	var input_direction = Vector2(
 		Input.get_axis("ui_left", "ui_right"),
 		Input.get_axis("ui_up", "ui_down")
@@ -61,56 +69,111 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("heal") and can_heal and heal_charges > 0:
 		heal()
 	
+	# Handle attack input
+	if Input.is_action_just_pressed("attack") and !attacking:
+		print("Will try to attack")
+		attack()
+		
 	# Handle movement
 	if !is_dashing:
 		if input_direction != Vector2.ZERO:
 			# Accelerate in input direction
 			velocity = velocity.move_toward(input_direction * move_speed, acceleration * delta)
-			
-			# Update sprite and hitbox facing direction
-			if input_direction.x != 0:
-				facing_right = input_direction.x > 0
-				if sprite:
-					sprite.flip_h = !facing_right
-				if attack_area:
-					# Flip the attack area position based on facing direction
-					attack_area.position.x = abs(attack_area.position.x) * (1 if facing_right else -1)
+			facing_direction = update_direction(input_direction)
+			print(direction_to_str())
+			update_hitbox()
+			if current_animation_state == AnimationState.WALKING or current_animation_state == AnimationState.IDLE:
+				sprite.play("walk_"+ direction_to_str())
+				
 		else:
 			# Apply friction when no input
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+			if current_animation_state == AnimationState.WALKING or current_animation_state == AnimationState.IDLE:
+				sprite.play("idle_"+ direction_to_str())
 	else:
 		# During dash, maintain dash velocity
 		velocity = dash_direction * dash_speed
-	
-	# Handle attack input
-	if Input.is_action_just_pressed("attack") and target and can_attack and !attacking:
-		print("Will try to attack")
-		attack()
-	
 	# Apply movement
 	move_and_slide()
+	
 
 func get_health() -> int:
 	return current_health
+
+func direction_to_str() -> String:
+	match facing_direction:
+		Direction.E:
+			return "E"
+		Direction.W:
+			return "W"
+		Direction.N:
+			return "N"
+		Direction.S:
+			return "S"
+		_:
+			return "S"
+	
+
+func update_direction(input_direction: Vector2) -> Direction:
+	
+	if input_direction.x != 0 or input_direction.y != 0:
+			if abs(input_direction.x) >= abs(input_direction.y):
+				return Direction.E if input_direction.x > 0 else Direction.W
+			else:
+				return Direction.S if input_direction.y > 0 else Direction.N
+	else:
+		return facing_direction
 	
 func get_damage() -> int:
 	return current_damage
 
+func update_hitbox():
+	match facing_direction:
+		Direction.E:
+			attack_area.position.x = abs(original_hitbox_position.x)
+			attack_area.position.y = original_hitbox_position.y
+			attack_area.rotation = 0  # No rotation for East
+		Direction.W:
+			attack_area.position.x = abs(original_hitbox_position.x) * -1
+			attack_area.position.y = original_hitbox_position.y
+			attack_area.rotation = 0  # No rotation for West
+		Direction.N:
+			attack_area.position.x = abs(original_hitbox_position.y)
+			attack_area.position.y = abs(original_hitbox_position.x + 3) * -1
+			attack_area.rotation = deg_to_rad(90)
+		Direction.S:
+			attack_area.position.x = abs(original_hitbox_position.y)
+			attack_area.position.y = abs(original_hitbox_position.x + 1)
+			attack_area.rotation = deg_to_rad(-90)
+			
 func start_dash(direction: Vector2):
 	if direction == Vector2.ZERO:
 		# If no direction input, dash in facing direction
-		direction = Vector2.RIGHT if facing_right else Vector2.LEFT
+		direction = get_correct_vector()
 	
 	is_dashing = true
 	can_dash = false
 	dash_direction = direction
-	
-	if animation_player:
-		animation_player.play("dash")  # You'll need to create this animation
-	
+	current_animation_state = AnimationState.DASHING
+	sprite.play("dash_"+ direction_to_str())
 	# End dash after duration
 	await get_tree().create_timer(dash_duration).timeout
 	end_dash()
+
+func get_correct_vector() -> Vector2:
+	match facing_direction:
+		Direction.E:
+			return Vector2.RIGHT
+		Direction.W:
+			return Vector2.LEFT
+		Direction.N:
+			return Vector2.UP
+		Direction.S:
+			return Vector2.DOWN
+		_:
+			return Vector2.RIGHT
+		
+		
 
 func end_dash():
 	is_dashing = false
@@ -118,49 +181,48 @@ func end_dash():
 	
 	# Start cooldown
 	await get_tree().create_timer(dash_cooldown - dash_duration).timeout
+	current_animation_state = AnimationState.IDLE
 	can_dash = true
 
 func attack():
 	attacking = true
-	can_attack = false
-	
-	if animation_player:
-		animation_player.play("attack")
-	
+	current_animation_state = AnimationState.ATTACKING
+	sprite.play("attack_"+ direction_to_str())
+	print(direction_to_str())
 	print("Hero attacking with:  ", attack_damage, " damage")
-	if target.has_method("take_damage"):
+	if target && target.has_method("take_damage"):
 		target.take_damage(attack_damage)
-	
-	await get_tree().create_timer(attack_cooldown).timeout
-	
+		
+	await sprite.animation_finished
 	attacking = false
-	can_attack = true
+	current_animation_state = AnimationState.IDLE
 
 func _on_attack_hitbox_body_entered(body):
 	if body.is_in_group("enemy"):
-		can_attack = true
 		target = body
 		
 func _on_attack_hitbox_body_exited(body):
 	if body.is_in_group("enemy"):
-		can_attack = false
 		target = null
 func _on_checkpoint_activated(pos: Vector2):
 	last_checkpoint_position = pos
 	print("Checkpoint activated at: ", pos)
 
 func take_damage(amount: int):
+	if current_animation_state == AnimationState.DEAD or is_dying or is_respawning:
+		return
 	current_health -= amount
 	current_damage = -amount
 	print("Player took ", amount, " damage. Health: ", current_health)
-	
-	if animation_player:
-		animation_player.play("hurt")
+	current_animation_state = AnimationState.HURT
+	sprite.play("hurt_"+ direction_to_str())
 	
 	if current_health <= 0:
 		die()
+		return
 		
-	await get_tree().create_timer(0.5).timeout
+	await sprite.animation_finished
+	current_animation_state = AnimationState.IDLE
 	current_damage = 0
 	
 func heal():
@@ -177,9 +239,7 @@ func heal():
 	current_damage = actual_heal_amount  # Show healing amount in health display
 	
 	print("Player healed for ", actual_heal_amount, " HP. Charges remaining: ", heal_charges)
-	
-	if animation_player:
-		animation_player.play("heal")  # You'll need to create this animation
+	  # You'll need to create this animation
 	
 	# Reset damage display after a short delay
 	await get_tree().create_timer(0.5).timeout
@@ -193,14 +253,64 @@ func heal():
 func die():
 	print("Player died!")
 	if last_checkpoint_position != Vector2.ZERO:
-		# Respawn at last checkpoint
-		global_position = last_checkpoint_position
-		current_health = max_health
-		heal_charges = max_heal_charges  # Optional: reset heal charges at checkpoint
-		print("Respawning at checkpoint: ", last_checkpoint_position)
-		last_checkpoint_position = Vector2.ZERO
+		start_respawn()
 	else:
-		# No checkpoint was activated, handle regular death
-		died.emit()
-		await get_tree().create_timer(0.1).timeout
-		queue_free()
+		start_death()
+
+func start_respawn():
+	is_respawning = true
+	current_animation_state = AnimationState.DEAD
+	
+	# Disable all input processing temporarily
+	set_physics_process(false)
+	
+	# Play death animation
+	sprite.play("dead_" + direction_to_str())
+	
+	# Wait for death animation
+	await sprite.animation_finished
+	
+	# Reset player state
+	current_health = max_health
+	heal_charges = max_heal_charges
+	velocity = Vector2.ZERO
+	global_position = last_checkpoint_position
+	current_animation_state = AnimationState.IDLE
+	last_checkpoint_position = Vector2.ZERO
+	
+	# Play respawn animation if you have one
+	sprite.play("idle_" + direction_to_str())
+	
+	# Re-enable processing
+	set_physics_process(true)
+	is_respawning = false
+
+func start_death():
+	print("Final death - no checkpoint")
+	is_dying = true
+	current_animation_state = AnimationState.DEAD
+	
+	# Disable all processing
+	set_physics_process(false)
+	set_process(false)
+	
+	# Disable all collision shapes
+	for child in get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.set_deferred("disabled", true)
+	
+	# Disable attack area
+	if attack_area:
+		attack_area.monitoring = false
+		attack_area.monitorable = false
+	
+	# Clear all velocities
+	velocity = Vector2.ZERO
+	
+	# Play death animation and wait for it to finish
+	sprite.play("dead_" + direction_to_str())
+	await sprite.animation_finished
+	
+	# Emit signal and remove player
+	died.emit()
+	queue_free()
