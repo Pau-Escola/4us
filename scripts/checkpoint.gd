@@ -1,14 +1,24 @@
-# Checkpoint.gd
 extends Area2D
 
+@export var texture_unactive: Texture2D
+@export var texture_active: Texture2D
+@export var texture_used: Texture2D
+
+var checkpoint_name: String  # Added for menu identification
+var adjectives = ["Hidden", "Ancient", "Mystic", "Crystal", "Shadow", "Forest", "Mountain", "Cave", "River", "Sacred"]
+var nouns = ["Sanctuary", "Gateway", "Portal", "Haven", "Refuge", "Waypoint", "Pinnacle", "Passage", "Anchor", "Beacon"]
 var activated = false
 var can_activate = false
-@onready var sprite = $Sprite2D  # Assuming you'll add a sprite
+@onready var sprite = $Sprite2D
 
 func _ready():
-	# Connect the collision detection signals
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	sprite.texture = texture_unactive
+	var random_adjective = adjectives[randi() % adjectives.size()]
+	var random_noun = nouns[randi() % nouns.size()]
+	checkpoint_name = random_adjective + " " + random_noun
+	add_to_group("checkpoint")
 
 func _process(_delta):
 	if can_activate and Input.is_action_just_pressed("activate_checkpoint") and !activated:
@@ -16,14 +26,19 @@ func _process(_delta):
 
 func activate_checkpoint():
 	activated = true
-	# Instead of emitting a signal, directly call the player's function
 	if can_activate and is_instance_valid(current_player):
-		current_player._on_checkpoint_activated(global_position)
-	# Change appearance to show it's activated/broken
-	if sprite:
-		sprite.modulate = Color.DARK_GRAY
-	
+		current_player._on_checkpoint_activated(self)
+	sprite.texture = texture_active
+
 var current_player = null
+
+func mark_as_used():
+	if sprite and texture_used:
+		sprite.texture = texture_used
+
+func reset_to_active():
+	if sprite and texture_active:
+		sprite.texture = texture_active
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):

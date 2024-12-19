@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_h7bdy"]
 [ext_resource type="PackedScene" uid="uid://rrxs4uqrapgv" path="res://scenes/healthDisplay.tscn" id="2_wf53j"]
-[ext_resource type="Texture2D" uid="uid://cwc2vrp0jbyun" path="res://resources/animations/player/Sword_attack_full.png" id="4_0lfh4"]
-[ext_resource type="Texture2D" uid="uid://dlr8s1yeklh32" path="res://resources/animations/player/Sword_Run_full.png" id="5_uq5kd"]
-[ext_resource type="Texture2D" uid="uid://c6uip2787nwb5" path="res://resources/animations/player/Sword_Death_full.png" id="6_4xxof"]
-[ext_resource type="Texture2D" uid="uid://d2y5h60gjmi1p" path="res://resources/animations/player/Sword_Hurt_full.png" id="7_y645p"]
-[ext_resource type="Texture2D" uid="uid://bln4nxa8jiumh" path="res://resources/animations/player/Sword_Idle_full.png" id="8_rwdr6"]
-[ext_resource type="Texture2D" uid="uid://biwn6slcd4j6m" path="res://resources/animations/player/Sword_Walk_full.png" id="9_ugf5t"]
+[ext_resource type="Texture2D" uid="uid://cwc2vrp0jbyun" path="res://resources/animations/enemy/Sword_attack_full.png" id="4_0lfh4"]
+[ext_resource type="Texture2D" uid="uid://dlr8s1yeklh32" path="res://resources/animations/enemy/Sword_Run_full.png" id="5_uq5kd"]
+[ext_resource type="Texture2D" uid="uid://c6uip2787nwb5" path="res://resources/animations/enemy/Sword_Death_full.png" id="6_4xxof"]
+[ext_resource type="Texture2D" uid="uid://d2y5h60gjmi1p" path="res://resources/animations/enemy/Sword_Hurt_full.png" id="7_y645p"]
+[ext_resource type="Texture2D" uid="uid://bln4nxa8jiumh" path="res://resources/animations/enemy/Sword_Idle_full.png" id="8_rwdr6"]
+[ext_resource type="Texture2D" uid="uid://biwn6slcd4j6m" path="res://resources/animations/enemy/Sword_Walk_full.png" id="9_ugf5t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jqfdr"]
 height = 34.0

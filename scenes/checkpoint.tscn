@@ -1,22 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://q1naiqxdxxr5"]
+[gd_scene load_steps=6 format=3 uid="uid://q1naiqxdxxr5"]
 
 [ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_73lxc"]
-[ext_resource type="Texture2D" uid="uid://ccwiytb0aevyv" path="res://resources/images/Decor_Statue.png" id="2_hcjwt"]
+[ext_resource type="Texture2D" uid="uid://bmv0t4abdy3ts" path="res://resources/checkpoint_states/active.png" id="2_rndwh"]
+[ext_resource type="Texture2D" uid="uid://b5255mmp47fdm" path="res://resources/checkpoint_states/unactive.png" id="2_v6myv"]
+[ext_resource type="Texture2D" uid="uid://6r5j542t01sm" path="res://resources/checkpoint_states/used.png" id="4_v6f3l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u201"]
-size = Vector2(26, 43)
+size = Vector2(24, 42)
 
-[node name="Area2D" type="Area2D"]
+[node name="Area2D" type="Area2D" groups=["checkpoint"]]
 script = ExtResource("1_73lxc")
+texture_unactive = ExtResource("2_v6myv")
+texture_active = ExtResource("2_rndwh")
+texture_used = ExtResource("4_v6f3l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 0.5)
+position = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_2u201")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(2.5, 0.999998)
-scale = Vector2(0.121094, 0.164062)
-texture = ExtResource("2_hcjwt")
+position = Vector2(3, -7)
+scale = Vector2(0.328125, 0.387755)
+texture = ExtResource("2_rndwh")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
