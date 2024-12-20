@@ -83,7 +83,6 @@ func _physics_process(delta):
 			# Accelerate in input direction
 			velocity = velocity.move_toward(input_direction * move_speed, acceleration * delta)
 			facing_direction = update_direction(input_direction)
-			print(direction_to_str())
 			update_hitbox()
 			if current_animation_state == AnimationState.WALKING or current_animation_state == AnimationState.IDLE:
 				sprite.play("walk_"+ direction_to_str())
@@ -191,7 +190,6 @@ func attack():
 	attacking = true
 	current_animation_state = AnimationState.ATTACKING
 	sprite.play("attack_"+ direction_to_str())
-	print(direction_to_str())
 	print("Hero attacking with:  ", attack_damage, " damage")
 	if target && target.has_method("take_damage"):
 		target.take_damage(attack_damage)
@@ -208,17 +206,13 @@ func _on_attack_hitbox_body_exited(body):
 	if body.is_in_group("enemy"):
 		target = null
 		
-func _on_checkpoint_activated(checkpoint: Node2D):
-	var checkpoint_data = {
-		"position": checkpoint.global_position,
-		"name": checkpoint.checkpoint_name,
-		"node": checkpoint
-	}
+func _on_checkpoint_activated(checkpoint: Checkpoint):
+	activated_checkpoints.append(checkpoint)
+	checkpoint_activated.emit(checkpoint)
+	print("Checkpoint activated: ", checkpoint.checkpoint_name)
+	print ("Position of checkpoint: ", checkpoint.position)
+	print ("Global position of checkpoint: ", checkpoint.global_position)
 	
-	if not activated_checkpoints.has(checkpoint_data):
-		activated_checkpoints.append(checkpoint_data)
-		checkpoint_activated.emit(checkpoint_data)
-		print("Checkpoint activated: ", checkpoint.checkpoint_name)
 
 func take_damage(amount: int):
 	if current_animation_state == AnimationState.DEAD or is_dying or is_respawning:
@@ -263,42 +257,33 @@ func heal():
 
 
 func die():
-	print("Player died!")
 	if activated_checkpoints.size() > 0:
-		# Temporarily pause the game
+		current_animation_state = AnimationState.DEAD
+		set_physics_process(false)
+		sprite.play("dead_" + direction_to_str())
+		await sprite.animation_finished
 		get_tree().paused = true
-		# Emit signal to show the checkpoint menu
 		show_checkpoint_menu.emit()
 	else:
 		start_death()
 
-func respawn_at_checkpoint(checkpoint_data: Dictionary):
+func respawn_at_checkpoint(checkpoint_data: Checkpoint):
 	get_tree().paused = false
 	is_respawning = true
-	current_animation_state = AnimationState.DEAD
-	
-	# Disable physics processing temporarily
-	set_physics_process(false)
-	
-	# Play death animation
-	sprite.play("dead_" + direction_to_str())
-	await sprite.animation_finished
-	
 	# Reset player state
 	current_health = max_health
 	heal_charges = max_heal_charges
 	velocity = Vector2.ZERO
 	
 	# Move to selected checkpoint
-	global_position = checkpoint_data.position
+	global_position = checkpoint_data.global_position
 	
 	# Update checkpoint visuals
-	var checkpoints = get_tree().get_nodes_in_group("checkpoint")
-	for checkpoint in checkpoints:
-		if checkpoint.global_position == checkpoint_data.position:
+	for i in range(activated_checkpoints.size()):
+		var checkpoint = activated_checkpoints[i]
+		if checkpoint.position == checkpoint_data.position:
 			checkpoint.mark_as_used()
-		else:
-			checkpoint.reset_to_active()
+			activated_checkpoints.remove_at(i)
 	
 	# Reset animation and enable physics
 	current_animation_state = AnimationState.IDLE

@@ -1,3 +1,4 @@
+class_name Checkpoint
 extends Area2D
 
 @export var texture_unactive: Texture2D
@@ -9,6 +10,7 @@ var adjectives = ["Hidden", "Ancient", "Mystic", "Crystal", "Shadow", "Forest", 
 var nouns = ["Sanctuary", "Gateway", "Portal", "Haven", "Refuge", "Waypoint", "Pinnacle", "Passage", "Anchor", "Beacon"]
 var activated = false
 var can_activate = false
+var used = false
 @onready var sprite = $Sprite2D
 
 func _ready():
@@ -33,15 +35,11 @@ func activate_checkpoint():
 var current_player = null
 
 func mark_as_used():
-	if sprite and texture_used:
-		sprite.texture = texture_used
-
-func reset_to_active():
-	if sprite and texture_active:
-		sprite.texture = texture_active
+	used = true
+	sprite.texture = texture_used
 
 func _on_body_entered(body):
-	if body.is_in_group("player"):
+	if body.is_in_group("player") and !used:
 		can_activate = true
 		current_player = body
 

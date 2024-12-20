@@ -1,21 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://c23p1gubgidxd"]
+[gd_scene load_steps=2 format=3 uid="uid://b8vbwpxpfqse3"]
 
-[ext_resource type="Script" path="res://scripts/CheckpointList.gd" id="1_sputj"]
+[ext_resource type="Script" path="res://scripts/CheckpointList.gd" id="1_1s237"]
 
-[node name="Control" type="Control"]
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_sputj")
+script = ExtResource("1_1s237")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
+[node name="ColorRect" type="ColorRect" parent="Control"]
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(1, 0.490196, 1, 1)
 
-[node name="CheckpointList" type="VBoxContainer" parent="."]
-layout_mode = 0
+[node name="CheckpointList" type="VBoxContainer" parent="Control"]
 offset_right = 40.0
 offset_bottom = 40.0
