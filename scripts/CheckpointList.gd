@@ -23,6 +23,8 @@ func refresh_checkpoint_list():
 	var checkpoint_list = $CheckpointList  # Your VBoxContainer
 	# Clear existing buttons
 	for child in checkpoint_list.get_children():
+		if child is Label:
+			continue
 		child.queue_free()
 	
 	# Add button for each checkpoint

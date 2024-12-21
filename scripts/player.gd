@@ -280,10 +280,12 @@ func respawn_at_checkpoint(checkpoint_data: Checkpoint):
 	
 	# Update checkpoint visuals
 	for i in range(activated_checkpoints.size()):
+		print("nem pel checkpoint:", i)
 		var checkpoint = activated_checkpoints[i]
 		if checkpoint.position == checkpoint_data.position:
 			checkpoint.mark_as_used()
 			activated_checkpoints.remove_at(i)
+			break
 	
 	# Reset animation and enable physics
 	current_animation_state = AnimationState.IDLE
