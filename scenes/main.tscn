@@ -43,10 +43,3 @@ position = Vector2(104, 77)
 attack_damage = 20
 
 [node name="Control" parent="." instance=ExtResource("8_ea62g")]
-
-[connection signal="body_entered" from="NavigationRegion2D/TileMapLayer/Area2D" to="NavigationRegion2D/TileMapLayer/Area2D" method="_on_body_entered"]
-[connection signal="body_exited" from="NavigationRegion2D/TileMapLayer/Area2D" to="NavigationRegion2D/TileMapLayer/Area2D" method="_on_body_exited"]
-[connection signal="body_entered" from="NavigationRegion2D/TileMapLayer/@Area2D@170116" to="NavigationRegion2D/TileMapLayer/@Area2D@170116" method="_on_body_entered"]
-[connection signal="body_exited" from="NavigationRegion2D/TileMapLayer/@Area2D@170116" to="NavigationRegion2D/TileMapLayer/@Area2D@170116" method="_on_body_exited"]
-[connection signal="body_entered" from="NavigationRegion2D/TileMapLayer/@Area2D@170117" to="NavigationRegion2D/TileMapLayer/@Area2D@170117" method="_on_body_entered"]
-[connection signal="body_exited" from="NavigationRegion2D/TileMapLayer/@Area2D@170117" to="NavigationRegion2D/TileMapLayer/@Area2D@170117" method="_on_body_exited"]
