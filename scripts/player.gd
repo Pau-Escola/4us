@@ -23,7 +23,7 @@ enum AnimationState { IDLE, WALKING, ATTACKING, HURT, DEAD, DASHING }
 var current_health: int
 var current_damage: int
 var attacking: bool = false
-var target: Node2D = null
+var targets: Array = []
 var can_dash: bool = true  # Changed from can_jump
 var is_dashing: bool = false  # New dash state
 var dash_direction: Vector2 = Vector2.ZERO  # Track dash direction
@@ -191,20 +191,22 @@ func attack():
 	current_animation_state = AnimationState.ATTACKING
 	sprite.play("attack_"+ direction_to_str())
 	print("Hero attacking with:  ", attack_damage, " damage")
-	if target && target.has_method("take_damage"):
-		target.take_damage(attack_damage)
+	if !targets.is_empty():
+		for target in targets:
+			if target.has_method("take_damage"):
+				target.take_damage(attack_damage)
 		
 	await sprite.animation_finished
 	attacking = false
 	current_animation_state = AnimationState.IDLE
 
 func _on_attack_hitbox_body_entered(body):
-	if body.is_in_group("enemy"):
-		target = body
+	if body.is_in_group("enemy") && !targets.has(body):
+		targets.append(body)
 		
 func _on_attack_hitbox_body_exited(body):
-	if body.is_in_group("enemy"):
-		target = null
+	if body.is_in_group("enemy") && targets.has(body):
+		targets.erase(body)
 		
 func _on_checkpoint_activated(checkpoint: Checkpoint):
 	activated_checkpoints.append(checkpoint)

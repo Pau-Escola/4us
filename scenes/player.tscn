@@ -1703,7 +1703,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j4q72")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_E",
 "speed": 20.0
 }, {
@@ -1753,7 +1753,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f4x7e")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_N",
 "speed": 20.0
 }, {
@@ -1803,7 +1803,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dpwcc")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_S",
 "speed": 20.0
 }, {
@@ -1853,7 +1853,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7hvb2")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_W",
 "speed": 20.0
 }, {
@@ -2105,7 +2105,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt_E",
-"speed": 14.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2155,7 +2155,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt_N",
-"speed": 14.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2205,7 +2205,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt_S",
-"speed": 14.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2255,7 +2255,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt_W",
-"speed": 14.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2405,7 +2405,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_S",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2455,7 +2455,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_W",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2505,7 +2505,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_E",
-"speed": 8.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2555,7 +2555,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_N",
-"speed": 8.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2605,7 +2605,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_S",
-"speed": 8.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2655,11 +2655,13 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_W",
-"speed": 8.0
+"speed": 20.0
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8q113")
+move_speed = 100.0
+dash_speed = 200.0
 
 [node name="HealthDisplay" parent="." instance=ExtResource("2_y7sqj")]
 position = Vector2(-22, -28)
@@ -2686,9 +2688,10 @@ color = Color(1, 1, 1, 0.32549)
 position = Vector2(-0.999997, -2.96471)
 scale = Vector2(0.453125, 0.474449)
 sprite_frames = SubResource("SpriteFrames_dofr5")
-animation = &"walk_W"
+animation = &"hurt_E"
 autoplay = "idle_S"
-frame_progress = 0.847172
+frame = 14
+frame_progress = 1.0
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_hitbox_body_exited"]
