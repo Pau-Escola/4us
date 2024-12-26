@@ -29,6 +29,10 @@ func _process(_delta):
 func activate_checkpoint():
 	activated = true
 	if can_activate and is_instance_valid(current_player):
+		current_player._setStateToPray()
+		current_player.sprite.play("pray_"+ current_player.direction_to_str())
+		await current_player.sprite.animation_finished
+		current_player._setStateToIdle()
 		current_player._on_checkpoint_activated(self)
 	sprite.texture = texture_active
 

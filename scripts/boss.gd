@@ -98,12 +98,10 @@ func _physics_process(delta):
 				attack(player)
 			if current_animation_state == AnimationState.WALKING or current_animation_state == AnimationState.IDLE:
 				sprite.play("walk_"+ direction_to_str())
-				print("playing walk_" + direction_to_str())
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta)
 		if current_animation_state == AnimationState.WALKING or current_animation_state == AnimationState.IDLE:
 			sprite.play("idle_"+ direction_to_str())
-			print("playing idle_" + direction_to_str())
 	move_and_slide()
 
 func update_direction(input_direction: Vector2) -> Direction:

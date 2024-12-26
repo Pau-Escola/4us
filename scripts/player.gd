@@ -19,7 +19,7 @@ extends CharacterBody2D
 
 
 enum Direction {N, S, E, W}
-enum AnimationState { IDLE, WALKING, ATTACKING, HURT, DEAD, DASHING }
+enum AnimationState { IDLE, WALKING, ATTACKING, HURT, DEAD, DASHING, PRAY }
 var current_health: int
 var current_damage: int
 var attacking: bool = false
@@ -207,6 +207,12 @@ func _on_attack_hitbox_body_entered(body):
 func _on_attack_hitbox_body_exited(body):
 	if body.is_in_group("enemy") && targets.has(body):
 		targets.erase(body)
+
+func _setStateToPray():
+	current_animation_state = AnimationState.PRAY
+
+func _setStateToIdle():
+	current_animation_state = AnimationState.IDLE
 		
 func _on_checkpoint_activated(checkpoint: Checkpoint):
 	activated_checkpoints.append(checkpoint)
@@ -222,13 +228,13 @@ func take_damage(amount: int):
 	current_health -= amount
 	current_damage = -amount
 	print("Player took ", amount, " damage. Health: ", current_health)
-	current_animation_state = AnimationState.HURT
-	sprite.play("hurt_"+ direction_to_str())
 	
 	if current_health <= 0:
 		die()
 		return
 		
+	current_animation_state = AnimationState.HURT
+	sprite.play("hurt_"+ direction_to_str())
 	await sprite.animation_finished
 	current_animation_state = AnimationState.IDLE
 	current_damage = 0
